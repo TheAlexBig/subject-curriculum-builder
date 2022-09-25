@@ -32,6 +32,16 @@
 $ npm install
 ```
 
+Inject the following env or add .env in the root folder with the following
+``` 
+MONGO_DB=mongo_url
+ADMIN_USER=pensum-builder
+ADMIN_PASS=Ba123!
+SALT_ROUNDS=10
+TOKEN_SECRET=tokenpass
+```
+
+
 ## Running the app
 
 ```bash
