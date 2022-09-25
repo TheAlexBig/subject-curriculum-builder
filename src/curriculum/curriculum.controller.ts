@@ -1,9 +1,16 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurriculumDto } from './domain/subject.dto';
 import { Curriculum } from './domain/subject.model';
 import { CurriculumService } from './curriculum.service';
-
 
 @Controller('curriculums')
 export class CurriculumController {

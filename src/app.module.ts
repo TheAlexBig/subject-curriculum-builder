@@ -7,11 +7,11 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    ServiceConfig, 
-    SubjectModule, 
-    CurriculumModule, 
-    UsersModule, 
-    AuthModule
+    ServiceConfig,
+    SubjectModule,
+    CurriculumModule,
+    UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

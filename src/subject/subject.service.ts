@@ -27,7 +27,9 @@ export class SubjectService {
   }
 
   async putUpdateSubject(subjectDto: SubjectDto, id: string): Promise<Subject> {
-    const subject = this.subjectModel.findByIdAndUpdate(id, subjectDto, { returnOriginal: false }).exec();
+    const subject = this.subjectModel
+      .findByIdAndUpdate(id, subjectDto, { returnOriginal: false })
+      .exec();
     return subject;
   }
 

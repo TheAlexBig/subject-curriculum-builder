@@ -10,11 +10,15 @@ import { JwtStrategy } from './jwt.strategy';
 const TOKEN_SECRET = process.env.TOKEN_SECRET || 'tokenpass';
 
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule.register({
-    secret: TOKEN_SECRET,
-    signOptions: { expiresIn: '1h'}
-  })],
+  imports: [
+    UsersModule,
+    PassportModule,
+    JwtModule.register({
+      secret: TOKEN_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
-  controllers: [AuthController]
+  controllers: [AuthController],
 })
 export class AuthModule {}
