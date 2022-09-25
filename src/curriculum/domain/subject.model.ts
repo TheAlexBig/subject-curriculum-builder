@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { Subject } from '../../subject/domain/model';
+import { Subject } from '../../subject/domain/subject.model';
 
 export type CurriculumDocument = Curriculum & Document;
 

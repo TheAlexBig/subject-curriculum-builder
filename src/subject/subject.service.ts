@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { createReadStream } from 'fs';
-import { Subject, SubjectDocument } from './domain/model';
+import { Subject, SubjectDocument } from './domain/subject.model';
 import { parse } from 'csv-parse';
 import { join } from 'path';
 import { Model } from 'mongoose';
-import { SubjectDto } from 'src/subject/domain/dto';
+import { SubjectDto } from 'src/subject/domain/subject.dto';
 
 @Injectable()
 export class SubjectService {
@@ -27,7 +27,7 @@ export class SubjectService {
   }
 
   async putUpdateSubject(subjectDto: SubjectDto, id: string): Promise<Subject> {
-    const subject = this.subjectModel.findByIdAndUpdate(id, subjectDto).exec();
+    const subject = this.subjectModel.findByIdAndUpdate(id, subjectDto, { returnOriginal: false }).exec();
     return subject;
   }
 

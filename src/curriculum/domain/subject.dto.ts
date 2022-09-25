@@ -1,4 +1,4 @@
-import { SubjectDto } from 'src/subject/domain/dto';
+import { SubjectDto } from 'src/subject/domain/subject.dto';
 
 class CurriculumDto {
   name: string;

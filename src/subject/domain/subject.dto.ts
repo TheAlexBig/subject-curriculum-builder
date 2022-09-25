@@ -1,4 +1,4 @@
-import { Term } from './term.dto';
+import { Term } from './subject.term.dto';
 
 class SubjectDto {
   term: Term;

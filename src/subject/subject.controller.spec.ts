@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SubjectController } from './controller';
-import { SubjectService } from './service';
+import { SubjectController } from './subject.controller';
+import { SubjectService } from './subject.service';
 
 describe('SubjectController', () => {
   let subjectController: SubjectController;

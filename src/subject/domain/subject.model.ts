@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Term } from './term.dto';
+import { Term } from './subject.term.dto';
 
 export type SubjectDocument = Subject & Document;
 

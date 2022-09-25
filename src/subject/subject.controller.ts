@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { SubjectService } from './service';
-import { SubjectDto } from './domain/dto';
-import { Subject } from './domain/model';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { SubjectService } from './subject.service';
+import { SubjectDto } from './domain/subject.dto';
+import { Subject } from './domain/subject.model';
 
 @Controller('subjects')
 export class SubjectController {
@@ -18,11 +19,13 @@ export class SubjectController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   postCreateRecord(@Body() body: SubjectDto): Promise<SubjectDto> {
     return this.subjectService.postCreateSubject(body);
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   putUpdateSubject(
     @Body() body: SubjectDto,
     @Param('id') id: string,

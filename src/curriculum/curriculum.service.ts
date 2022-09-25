@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CurriculumDto } from './domain/dto';
-import { Curriculum, CurriculumDocument } from './domain/model';
+import { CurriculumDto } from './domain/subject.dto';
+import { Curriculum, CurriculumDocument } from './domain/subject.model';
 
 @Injectable()
 export class CurriculumService {
@@ -30,9 +30,9 @@ export class CurriculumService {
     curriculumDto: CurriculumDto,
     id: string,
   ): Promise<Curriculum> {
-    const subject = this.curriculumModel
-      .findByIdAndUpdate(id, curriculumDto)
+    const curriculum = await this.curriculumModel
+      .findByIdAndUpdate(id, curriculumDto, { returnOriginal: false })
       .exec();
-    return subject;
+    return curriculum;
   }
 }
