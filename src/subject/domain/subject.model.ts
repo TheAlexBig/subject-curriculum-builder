@@ -9,7 +9,7 @@ export class Subject {
   @Prop()
   term: Term;
 
-  @Prop()
+  @Prop({unique: true})
   code: string;
 
   @Prop()
@@ -25,7 +25,7 @@ export class Subject {
   weight: number;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Subject' }] })
-  prerequisite: Subject[];
+  prerequisite: Array<Subject>;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);

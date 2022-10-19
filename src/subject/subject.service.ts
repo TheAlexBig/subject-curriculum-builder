@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { createReadStream } from 'fs';
 import { Subject, SubjectDocument } from './domain/subject.model';
 import { parse } from 'csv-parse';
 import { join } from 'path';
-import { Model } from 'mongoose';
-import { SubjectDto } from 'src/subject/domain/subject.dto';
+import { Model, Types } from 'mongoose';
+import { SubjectDto, SubjectDtoPrerequisite } from 'src/subject/domain/subject.dto';
 
 @Injectable()
 export class SubjectService {
@@ -13,12 +13,16 @@ export class SubjectService {
     @InjectModel(Subject.name) private subjectModel: Model<SubjectDocument>,
   ) {}
 
-  async getFindAll(): Promise<Subject[]> {
+  async getFindAll(): Promise<Array<Subject>> {
     return this.subjectModel.find().populate('prerequisite').exec();
   }
 
-  async getFindOneSubject(id: string): Promise<Subject> {
-    return this.subjectModel.findById(id).exec();
+  async getFindOneSubject(code: string): Promise<Subject> {
+    return this.subjectModel.findOne({code}).populate('prerequisite').exec();
+  }
+
+  async getFindAllByCriteria(criteria: any): Promise<Array<SubjectDocument>>{
+    return await this.subjectModel.find(criteria).exec();
   }
 
   async postCreateSubject(subjectDto: SubjectDto): Promise<Subject> {
@@ -31,15 +35,29 @@ export class SubjectService {
     return result;
   }
 
-  async putUpdateSubject(subjectDto: SubjectDto, id: string): Promise<Subject> {
-    const subject = this.subjectModel
-      .findByIdAndUpdate(id, subjectDto, { returnOriginal: false })
-      .exec();
-    return subject;
+  async updatePrequesites(code: string, prerequisite: Array<string>, payload: any): Promise<Subject> {
+    const subjectFound: SubjectDocument = await this.subjectModel.findOne({code}).exec();
+    if(subjectFound==null) throw new HttpException('Subect not found', HttpStatus.NOT_FOUND);
+    const prerequisiteFound: Array<SubjectDocument> = await this.getFindAllByCriteria({code: { $in: prerequisite }});
+    Object.keys(payload).forEach((key:string)=>{
+        subjectFound[key] =  payload[key];
+    });
+    subjectFound.prerequisite = prerequisiteFound;
+    return await this.subjectModel.findOneAndUpdate({code},subjectFound, {returnOriginal: false}).populate('prerequisite').exec();
   }
 
-  async deleteRemoveSubject(id: string) {
-    this.subjectModel.findByIdAndDelete(id).exec();
+  async putSetPrerequisites(SubjectDtoPrerequisite: Array<SubjectDtoPrerequisite>): Promise<Array<Subject>>{
+      const result = SubjectDtoPrerequisite.map(item => this.updatePrequesites(item.code, item.prerequisite, []));    
+    return Promise.all(result);
+  }
+
+  async putUpdateSubject(subjectDto: SubjectDto, code: string): Promise<Subject> {
+    const {prerequisite, ...updatePayload} = subjectDto;
+    return await this.updatePrequesites(code, prerequisite, updatePayload);
+  }
+
+  async deleteRemoveSubject(code: string) {
+    this.subjectModel.findOneAndDelete({code}).exec();
   }
 
   async postUploadMockSyllabus(): Promise<Subject[]> {

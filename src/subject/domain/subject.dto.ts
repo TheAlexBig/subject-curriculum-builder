@@ -7,7 +7,7 @@ class SubjectDto {
   name: string;
   description: string;
   weight: number;
-  prerequisite: SubjectDto[];
+  prerequisite: Array<string>;
 
   constructor(
     term: Term,
@@ -16,7 +16,7 @@ class SubjectDto {
     name: string,
     description: string,
     weight: number,
-    prerequisite: SubjectDto[],
+    prerequisite: Array<string>,
   ) {
     this.term = term;
     this.code = code;
@@ -28,4 +28,9 @@ class SubjectDto {
   }
 }
 
-export { SubjectDto };
+class SubjectDtoPrerequisite {
+  code: string;
+  prerequisite: Array<string>;
+}
+
+export { SubjectDto, SubjectDtoPrerequisite };

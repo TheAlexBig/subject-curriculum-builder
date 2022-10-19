@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CurriculumDto } from './domain/subject.dto';
-import { Curriculum } from './domain/subject.model';
+import { CurriculumDto } from './domain/curriculum.dto';
+import { Curriculum } from './domain/curriculum.model';
 import { CurriculumService } from './curriculum.service';
 
 @Controller('curriculums')
@@ -38,7 +38,7 @@ export class CurriculumController {
   putUpdateCurriculum(
     @Body() body: CurriculumDto,
     @Param('id') id: string,
-  ): Promise<CurriculumDto> {
+  ): Promise<Curriculum> {
     return this.curriculumService.putUpdateCurriculum(body, id);
   }
 

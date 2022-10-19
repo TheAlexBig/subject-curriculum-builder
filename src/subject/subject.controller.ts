@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { SubjectService } from './subject.service';
-import { SubjectDto } from './domain/subject.dto';
+import { SubjectDto, SubjectDtoPrerequisite } from './domain/subject.dto';
 import { Subject } from './domain/subject.model';
 
 @Controller('subjects')
@@ -18,18 +18,18 @@ export class SubjectController {
   constructor(private readonly subjectService: SubjectService) {}
 
   @Get('/all')
-  getFindAll(): Promise<SubjectDto[]> {
+  getFindAll(): Promise<Array<Subject>> {
     return this.subjectService.getFindAll();
   }
 
-  @Get(':id')
-  getFindOneSubject(@Param('id') id: string): Promise<Subject> {
-    return this.subjectService.getFindOneSubject(id);
+  @Get(':code')
+  getFindOneSubject(@Param('code') code: string): Promise<Subject> {
+    return this.subjectService.getFindOneSubject(code);
   }
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  postCreateSubjects(@Body() body: SubjectDto): Promise<SubjectDto> {
+  postCreateSubjects(@Body() body: SubjectDto): Promise<Subject> {
     return this.subjectService.postCreateSubject(body);
   }
 
@@ -39,21 +39,28 @@ export class SubjectController {
       return this.subjectService.postCreateMultipleSubjects(body);
   }
 
-  @Put(':id')
+  @Put('/prerequisites')
+  @UseGuards(JwtAuthGuard)
+  putSetPrerequisite(@Body() body: Array<SubjectDtoPrerequisite>): Promise<Array<Subject>>{
+      return this.subjectService.putSetPrerequisites(body);
+  }
+
+
+  @Put(':code')
   @UseGuards(JwtAuthGuard)
   putUpdateSubject(
     @Body() body: SubjectDto,
-    @Param('id') id: string,
-  ): Promise<SubjectDto> {
-    return this.subjectService.putUpdateSubject(body, id);
+    @Param('code') code: string,
+  ): Promise<Subject> {
+    return this.subjectService.putUpdateSubject(body, code);
   }
 
-  @Delete(':id')
+  @Delete(':code')
   @UseGuards(JwtAuthGuard)
   deleteRemoveSubject(
-    @Param('id') id: string
+    @Param('code') code: string
   ){
-    this.subjectService.deleteRemoveSubject(id);
+    this.subjectService.deleteRemoveSubject(code);
   }
 
   @Get('/mock-file')

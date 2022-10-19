@@ -10,7 +10,7 @@ export class Curriculum {
   name: string;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Subject' }] })
-  subjects: Subject[];
+  subjects: Array<Subject>;
 }
 
 export const CurriculumSchema = SchemaFactory.createForClass(Curriculum);
