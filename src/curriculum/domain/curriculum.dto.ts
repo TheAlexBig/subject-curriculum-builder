@@ -1,8 +1,8 @@
-import { SubjectDto } from 'src/subject/domain/subject.dto';
+import { TermDto } from './curriculum.dto.term';
 
 class CurriculumDto {
   name: string;
-  subjects: Array<string>;
+  subjects: Array<TermDto>;
 }
 
 export { CurriculumDto };

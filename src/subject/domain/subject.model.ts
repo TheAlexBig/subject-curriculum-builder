@@ -1,13 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Term } from './subject.term.dto';
 
 export type SubjectDocument = Subject & Document;
 
 @Schema()
 export class Subject {
-  @Prop()
-  term: Term;
 
   @Prop({unique: true})
   code: string;

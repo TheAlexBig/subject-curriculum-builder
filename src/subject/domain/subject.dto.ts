@@ -1,7 +1,4 @@
-import { Term } from './subject.term.dto';
-
 class SubjectDto {
-  term: Term;
   code: string;
   uv: number;
   name: string;
@@ -10,7 +7,6 @@ class SubjectDto {
   prerequisite: Array<string>;
 
   constructor(
-    term: Term,
     code: string,
     uv: number,
     name: string,
@@ -18,7 +14,6 @@ class SubjectDto {
     weight: number,
     prerequisite: Array<string>,
   ) {
-    this.term = term;
     this.code = code;
     this.uv = uv;
     this.name = name;
